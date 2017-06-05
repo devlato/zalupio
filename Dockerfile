@@ -2,7 +2,7 @@
 FROM node:0.12.7
 
 # Install Aglio
-RUN npm install -g aglio@latest
+RUN npm install -g zalupio@latest
 
 
-ENTRYPOINT ["aglio"]
+ENTRYPOINT ["zalupio"]

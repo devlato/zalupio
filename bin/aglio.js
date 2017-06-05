@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-process.title = 'aglio';
+process.title = 'zalupio';
 
 require('../lib/bin').run(null, function(err){
 	if(err){

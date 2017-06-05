@@ -1,4 +1,4 @@
-aglio = require '../lib/main'
+zalupio = require '../lib/main'
 assert = require 'assert'
 bin = require '../lib/bin'
 fs = require 'fs'
@@ -13,7 +13,7 @@ blueprint = fs.readFileSync path.join(root, 'example.apib'), 'utf-8'
 
 describe 'API Blueprint Renderer', ->
     it 'Should load the default theme', ->
-        theme = aglio.getTheme 'default'
+        theme = zalupio.getTheme 'default'
 
         assert.ok theme
 
@@ -28,7 +28,7 @@ describe 'API Blueprint Renderer', ->
             More content...
         '''
 
-        paths = aglio.collectPathsSync input, '.'
+        paths = zalupio.collectPathsSync input, '.'
 
         fs.readFileSync.restore()
 
@@ -37,7 +37,7 @@ describe 'API Blueprint Renderer', ->
         assert 'test2.apib' in paths
 
     it 'Should render blank string', (done) ->
-        aglio.render '', template: 'default', locals: {foo: 1}, (err, html) ->
+        zalupio.render '', template: 'default', locals: {foo: 1}, (err, html) ->
             if err then return done(err)
 
             assert html
@@ -45,7 +45,7 @@ describe 'API Blueprint Renderer', ->
             done()
 
     it 'Should render a complex document', (done) ->
-        aglio.render blueprint, 'default', (err, html) ->
+        zalupio.render blueprint, 'default', (err, html) ->
             if err then return done(err)
 
             assert html
@@ -57,11 +57,11 @@ describe 'API Blueprint Renderer', ->
 
     it 'Should render mixed line endings and tabs properly', (done) ->
         temp = '# GET /message\r\n+ Response 200 (text/plain)\r\r\t\tHello!\n'
-        aglio.render temp, 'default', done
+        zalupio.render temp, 'default', done
 
     it 'Should render a custom template by filename', (done) ->
         template = path.join(root, 'test', 'test.jade')
-        aglio.render '# Blueprint', template, (err, html) ->
+        zalupio.render '# Blueprint', template, (err, html) ->
             if err then return done(err)
 
             assert html
@@ -72,7 +72,7 @@ describe 'API Blueprint Renderer', ->
         temp = '# GET /message\r\n+ Response 200 (text/plain)\r\r\t\tHello!\n'
         filteredTemp = temp.replace(/\r\n?/g, '\n').replace(/\t/g, '    ')
 
-        aglio.render temp, 'default', (err, html, warnings) ->
+        zalupio.render temp, 'default', (err, html, warnings) ->
             if err then return done(err)
 
             assert.equal filteredTemp, warnings.input
@@ -82,14 +82,14 @@ describe 'API Blueprint Renderer', ->
     it 'Should render from/to files', (done) ->
         src = path.join root, 'example.apib'
         dest = path.join root, 'example.html'
-        aglio.renderFile src, dest, {}, done
+        zalupio.renderFile src, dest, {}, done
 
     it 'Should render from stdin', (done) ->
         sinon.stub process.stdin, 'read', -> '# Hello\n'
 
         setTimeout -> process.stdin.emit 'readable', 1
 
-        aglio.renderFile '-', 'example.html', 'default', (err) ->
+        zalupio.renderFile '-', 'example.html', 'default', (err) ->
             if err then return done(err)
 
             assert process.stdin.read.called
@@ -101,7 +101,7 @@ describe 'API Blueprint Renderer', ->
     it 'Should render to stdout', (done) ->
         sinon.stub console, 'log'
 
-        aglio.renderFile path.join(root, 'example.apib'), '-', 'default', (err) ->
+        zalupio.renderFile path.join(root, 'example.apib'), '-', 'default', (err) ->
             if err
                 console.log.restore()
                 return done(err)
@@ -114,14 +114,14 @@ describe 'API Blueprint Renderer', ->
     it 'Should compile from/to files', (done) ->
         src = path.join root, 'example.apib'
         dest = path.join root, 'example-compiled.apib'
-        aglio.compileFile src, dest, done
+        zalupio.compileFile src, dest, done
 
     it 'Should compile from stdin', (done) ->
         sinon.stub process.stdin, 'read', -> '# Hello\n'
 
         setTimeout -> process.stdin.emit 'readable', 1
 
-        aglio.compileFile '-', 'example-compiled.apib', (err) ->
+        zalupio.compileFile '-', 'example-compiled.apib', (err) ->
             if err then return done(err)
 
             assert process.stdin.read.called
@@ -133,7 +133,7 @@ describe 'API Blueprint Renderer', ->
     it 'Should compile to stdout', (done) ->
         sinon.stub console, 'log'
 
-        aglio.compileFile path.join(root, 'example.apib'), '-', (err) ->
+        zalupio.compileFile path.join(root, 'example.apib'), '-', (err) ->
             if err then return done(err)
 
             assert console.log.called
@@ -142,7 +142,7 @@ describe 'API Blueprint Renderer', ->
             done()
 
     it 'Should support legacy theme names', (done) ->
-        aglio.render '', template: 'flatly', (err, html) ->
+        zalupio.render '', template: 'flatly', (err, html) ->
             if err then return done(err)
 
             assert html
@@ -150,15 +150,15 @@ describe 'API Blueprint Renderer', ->
             done()
 
     it 'Should error on missing input file', (done) ->
-        aglio.renderFile 'missing', 'output.html', 'default', (err, html) ->
+        zalupio.renderFile 'missing', 'output.html', 'default', (err, html) ->
             assert err
 
-            aglio.compileFile 'missing', 'output.apib', (err) ->
+            zalupio.compileFile 'missing', 'output.apib', (err) ->
                 assert err
                 done()
 
     it 'Should error on bad template', (done) ->
-        aglio.render blueprint, 'bad', (err, html) ->
+        zalupio.render blueprint, 'bad', (err, html) ->
             assert err
 
             done()
@@ -167,7 +167,7 @@ describe 'API Blueprint Renderer', ->
         sinon.stub drafter, 'parse', (content, options, callback) ->
             callback 'error'
 
-        aglio.render blueprint, 'default', (err, html) ->
+        zalupio.render blueprint, 'default', (err, html) ->
             assert err
 
             drafter.parse.restore()
@@ -178,7 +178,7 @@ describe 'API Blueprint Renderer', ->
         sinon.stub fs, 'readFile', (filename, options, callback) ->
             callback 'error'
 
-        aglio.renderFile 'foo', 'bar', 'default', (err, html) ->
+        zalupio.renderFile 'foo', 'bar', 'default', (err, html) ->
             assert err
 
             fs.readFile.restore()
@@ -189,7 +189,7 @@ describe 'API Blueprint Renderer', ->
         sinon.stub fs, 'writeFile', (filename, data, callback) ->
             callback 'error'
 
-        aglio.renderFile 'foo', 'bar', 'default', (err, html) ->
+        zalupio.renderFile 'foo', 'bar', 'default', (err, html) ->
             assert err
 
             fs.writeFile.restore()
@@ -197,13 +197,13 @@ describe 'API Blueprint Renderer', ->
             done()
 
     it 'Should error on non-file failure', (done) ->
-        sinon.stub aglio, 'render', (content, template, callback) ->
+        sinon.stub zalupio, 'render', (content, template, callback) ->
             callback 'error'
 
-        aglio.renderFile path.join(root, 'example.apib'), 'bar', 'default', (err, html) ->
+        zalupio.renderFile path.join(root, 'example.apib'), 'bar', 'default', (err, html) ->
             assert err
 
-            aglio.render.restore()
+            zalupio.render.restore()
 
             done()
 
@@ -212,7 +212,7 @@ describe 'Executable', ->
         sinon.stub console, 'log'
 
         bin.run version: true, (err) ->
-            assert console.log.args[0][0].match /aglio \d+/
+            assert console.log.args[0][0].match /zalupio \d+/
             assert console.log.args[1][0].match /olio \d+/
             console.log.restore()
             done(err)
@@ -220,7 +220,7 @@ describe 'Executable', ->
     it 'Should render a file', (done) ->
         sinon.stub console, 'error'
 
-        sinon.stub aglio, 'renderFile', (i, o, t, callback) ->
+        sinon.stub zalupio, 'renderFile', (i, o, t, callback) ->
             warnings = [
                 {
                     code: 1
@@ -241,21 +241,21 @@ describe 'Executable', ->
 
         bin.run i: path.join(root, 'example.apib'), o: '-', ->
             console.error.restore()
-            aglio.renderFile.restore()
+            zalupio.renderFile.restore()
             done()
 
     it 'Should compile a file', (done) ->
-        sinon.stub aglio, 'compileFile', (i, o, callback) ->
+        sinon.stub zalupio, 'compileFile', (i, o, callback) ->
             callback null
 
         bin.run c: 1, i: path.join(root, 'example.apib'), o: '-', ->
-            aglio.compileFile.restore()
+            zalupio.compileFile.restore()
             done()
 
     it 'Should start a live preview server', (done) ->
         @timeout 5000
 
-        sinon.stub aglio, 'render', (i, t, callback) ->
+        sinon.stub zalupio, 'render', (i, t, callback) ->
             callback null, 'foo'
 
         sinon.stub http, 'createServer', (handler) ->
@@ -274,7 +274,7 @@ describe 'Executable', ->
                 res =
                     writeHead: (status, headers) -> false
                     end: (data) ->
-                        aglio.render.restore()
+                        zalupio.render.restore()
                         cb()
                         file = fs.readFileSync 'example.apib', 'utf8'
                         setTimeout ->
@@ -306,17 +306,17 @@ describe 'Executable', ->
 
     it 'Should handle theme load errors', (done) ->
         sinon.stub console, 'error'
-        sinon.stub aglio, 'getTheme', ->
+        sinon.stub zalupio, 'getTheme', ->
             throw new Error('Could not load theme')
 
         bin.run template: 'invalid', (err) ->
             console.error.restore()
-            aglio.getTheme.restore()
+            zalupio.getTheme.restore()
             assert err
             done()
 
     it 'Should handle rendering errors', (done) ->
-        sinon.stub aglio, 'renderFile', (i, o, t, callback) ->
+        sinon.stub zalupio, 'renderFile', (i, o, t, callback) ->
             callback
                 code: 1
                 message: 'foo'
@@ -331,6 +331,6 @@ describe 'Executable', ->
             assert console.error.called
 
             console.error.restore()
-            aglio.renderFile.restore()
+            zalupio.renderFile.restore()
 
             done()

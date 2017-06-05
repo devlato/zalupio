@@ -1,6 +1,6 @@
 {
-  "name": "aglio",
-  "version": "2.3.0",
+  "name": "zalupio",
+  "version": "3.0.0",
   "description": "An API Blueprint renderer with theme support",
   "main": "lib/main.js",
   "bin": {
@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "grunt test",
+    "grunt": "grunt",
     "prepublish": "grunt compile",
     "blanket": {
       "pattern": [
@@ -16,14 +17,17 @@
       "data-cover-never": "node_modules"
     }
   },
-  "author": "Daniel G. Taylor",
+  "authors": [
+    "Daniel G. Taylor",
+    "Denis Tokarev <github@devlato.com>"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielgtaylor/aglio"
+    "url": "https://github.com/devlato/zalupio"
   },
   "bugs": {
-    "url": "https://github.com/danielgtaylor/aglio/issues"
+    "url": "https://github.com/devlato/zalupio/issues"
   },
   "keywords": [
     "api",
@@ -35,21 +39,24 @@
     "markdown"
   ],
   "dependencies": {
-    "aglio-theme-olio": "git://github.com/icetan/aglio#olio-theme-pre-compiled",
+    "aglio-theme-olio": "^1.6.3",
     "chokidar": "^1.4.1",
     "cli-color": "^1.1.0",
-    "pretty-error": "^1.2.0",
+    "coffeescript": "^1.12.6",
     "drafter": "^1.0.0",
+    "express": "^4.15.3",
+    "mocha": "^3.4.2",
+    "pretty-error": "^1.2.0",
     "serve-static": "^1.10.0",
     "socket.io": "^1.3.7",
     "yargs": "^3.31.0"
   },
   "devDependencies": {
     "async": "^1.5.0",
-    "coffeelint": "^1.14.2",
-    "grunt": "~0.4.5",
-    "grunt-cli": "1.2.0",
-    "grunt-coffeelint": "0.0.13",
+    "coffeelint": "^1.16.0",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-coffeelint": "0.0.16",
     "grunt-contrib-coffee": "^0.13.0",
     "grunt-mocha-cov": "^0.4.0",
     "sinon": "^1.17.2"

@@ -1,3 +1,7 @@
+# 3.0.0
+
+* Fork the `aglio` project, merge all the pending pull requests and publish a `zalupio` library.
+
 # 2.3.0
 
 * Switch to [Drafter](https://github.com/apiaryio/drafter-npm) for API Blueprint parsing. [#277](https://github.com/danielgtaylor/aglio/pull/277)

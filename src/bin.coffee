@@ -1,4 +1,4 @@
-aglio = require './main'
+zalupio = require './main'
 chokidar = require 'chokidar'
 clc = require 'cli-color'
 fs = require 'fs'
@@ -24,7 +24,7 @@ parser = require('yargs')
     .options('n', alias: 'include-path', describe: 'Base directory for relative includes')
     .options('q', alias: 'quiet', boolean: true, describe: 'Suppress warning messages', default: false)
     .options('verbose', describe: 'Show verbose information and stack traces', default: false)
-    .epilog('See https://github.com/danielgtaylor/aglio#readme for more information')
+    .epilog('See https://github.com/devlato/zalupio#readme for more information')
 
 # Console color settings for error/warnings
 cErr = clc.white.bgRed
@@ -72,7 +72,7 @@ exports.run = (argv=parser.argv, done=->) ->
         else
             fs.readFile argv.i, "utf-8", (err, blueprint) ->
                 console.log "Rendering " + argv.i
-                aglio.render blueprint, argv, (err, html, warnings) ->
+                zalupio.render blueprint, argv, (err, html, warnings) ->
                     logWarnings warnings
                     if err
                         logError err, argv.verbose
@@ -82,8 +82,8 @@ exports.run = (argv=parser.argv, done=->) ->
                         cb and cb(null, _html)
 
     if argv.version
-        console.log("aglio #{require('../package.json').version}")
-        console.log("olio #{require('aglio-theme-olio/package.json').version}")
+        console.log("zalupio #{require('../package.json').version}")
+        console.log("olio #{require('zalupio-theme-olio/package.json').version}")
         return done()
 
     # The option used to be called `template`
@@ -97,7 +97,7 @@ exports.run = (argv=parser.argv, done=->) ->
     # Add theme options to the help output
     if argv.verbose then console.log "Loading theme #{argv.theme}"
     try
-        theme = aglio.getTheme(argv.theme)
+        theme = zalupio.getTheme(argv.theme)
     catch err
         err.message = "Could not load theme: #{err.message}"
         logError err, argv.verbose
@@ -148,7 +148,7 @@ exports.run = (argv=parser.argv, done=->) ->
             socket.on 'request-refresh', ->
                 sendHtml socket
 
-        paths = aglio.collectPathsSync fs.readFileSync(argv.i, 'utf-8'), path.dirname(argv.i)
+        paths = zalupio.collectPathsSync fs.readFileSync(argv.i, 'utf-8'), path.dirname(argv.i)
 
         watcher = chokidar.watch [argv.i].concat(paths), awaitWriteFinish: true
         watcher.on "change", (path) ->
@@ -164,13 +164,13 @@ exports.run = (argv=parser.argv, done=->) ->
             return done 'Invalid arguments'
 
         if argv.c or (typeof argv.o is 'string' and (argv.o.match /\.apib$/ or argv.o.match /\.md$/))
-            aglio.compileFile argv.i, argv.o, (err) ->
+            zalupio.compileFile argv.i, argv.o, (err) ->
                 if (err)
                     logError err, argv.verbose
 
                 done()
         else
-            aglio.renderFile argv.i, argv.o, argv, (err, warnings) ->
+            zalupio.renderFile argv.i, argv.o, argv, (err, warnings) ->
                 if err
                     lineNo = getLineNo err.input, err
                     if lineNo?

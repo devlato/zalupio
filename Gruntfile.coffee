@@ -50,14 +50,14 @@ module.exports = (grunt) ->
     grunt.registerTask 'gen-examples', 'Generate an example for each theme', ->
         done = @async()
 
-        aglio = require './lib/main'
+        zalupio = require './lib/main'
 
         render = (name, done) ->
             console.log "Generating examples/#{name}.html"
-            aglio.renderFile 'example.apib', "examples/#{name}.html", themeVariables: name, (err) ->
+            zalupio.renderFile 'example.apib', "examples/#{name}.html", themeVariables: name, (err) ->
                 if err then return done(err)
                 console.log "Generating examples/#{name}-triple.html"
-                aglio.renderFile 'example.apib', "examples/#{name}-triple.html", themeVariables: name, themeTemplate: 'triple', (err) ->
+                zalupio.renderFile 'example.apib', "examples/#{name}-triple.html", themeVariables: name, themeTemplate: 'triple', (err) ->
                     done(err)
 
         async.each ['default', 'flatly', 'slate', 'cyborg', 'streak'], render, done
