@@ -9,7 +9,15 @@
 
 # Introduction
 
-This repo is a fork of [zalupio](https://github.com/danielgtaylor/aglio) project because aglio is not well maintained anymore.
+This repo is a fork of [zalupio](https://github.com/danielgtaylor/aglio) project because aglio is not well maintained anymore. All the critical pending pull requests were merged here.
+
+The *development roadmap* includes the following points:
+* Migrate the repo to modern tools;
+* Rewrite Coffeescript code with JavaScript;
+* Use jest as test engine;
+* Improve test coverage;
+* Improve watch mode;
+* Add emdebbed mock server.
 
 An [API Blueprint](http://apiblueprint.org/) renderer that supports multiple themes and outputs static HTML that can be served by any web host. API Blueprint is a Markdown-based document format that lets you write API descriptions and documentation in a simple and straightforward way. Currently supported is [API Blueprint format 1A](https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md).
 
